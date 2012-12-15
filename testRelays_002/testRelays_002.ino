@@ -9,12 +9,17 @@
 
 int count = 1;
 
+#define relayPinA 2
+#define relayPinB 3
+#define relayPinA_test 4
+#define relayPinB_test 5 
+
 void setup()
 {
-	pinMode(2,OUTPUT); //relay A control
-	pinMode(3,OUTPUT); //relay B control
-	pinMode(4,INPUT);  //relay A 5v test
-	pinMode(5,INPUT);  //relay B 5v test
+	pinMode(relayPinA,OUTPUT); //relay A control
+	pinMode(relayPinB,OUTPUT); //relay B control
+	pinMode(relayPinA_test,INPUT);  //relay A 5v test
+	pinMode(relayPinB_test,INPUT);  //relay B 5v test
 	Serial.begin(9600);
 }
 
@@ -34,31 +39,31 @@ void loop()
 }
 
 void turnOnRelay_A() {
-	digitalWrite(2,HIGH);
+	digitalWrite(relayPinA,HIGH);
 	Serial.print("relay A on, test state=");
 	Serial.print(relay_A_state());
 	newline();
 }
 int relay_A_state(){
-	return digitalRead(4);
+	return digitalRead(relayPinA_test);
 }
 void turnOffRelay_A() {
-        digitalWrite(2,LOW);
+        digitalWrite(relayPinA,LOW);
 	Serial.print("relay A off, test state=");
 	Serial.print(relay_A_state());
         newline();
 }
 void turnOnRelay_B() {
-        digitalWrite(3,HIGH);
+        digitalWrite(relayPinB,HIGH);
 	Serial.print("relay B on, test state=");
 	Serial.print(relay_B_state());
 	newline();
 }
 int relay_B_state(){
-        return digitalRead(5);
+        return digitalRead(relayPinB_test);
 }
 void turnOffRelay_B() {
-        digitalWrite(3,LOW);
+        digitalWrite(relayPinB,LOW);
 	Serial.print("relay B off, test state=");
 	Serial.print(relay_B_state());
         newline();
