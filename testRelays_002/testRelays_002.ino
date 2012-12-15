@@ -8,9 +8,9 @@ int count = 1;
 int successCount = 0;
 int failCount = 0;
 
-#define delay_ms 20
+#define delay_ms 100
 
-#define iterations 50
+#define iterations 20
 
 #define relayPinA 3
 #define relayPinB 2
@@ -39,9 +39,9 @@ void loop()
         	newline();
 
 		turnOnRelay_A();
-		turnOnRelay_B();
-
 		turnOffRelay_A();
+
+		turnOnRelay_B();
 		turnOffRelay_B();
 		hr();
 	}
