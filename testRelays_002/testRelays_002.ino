@@ -36,8 +36,8 @@ void loop()
         	Serial.print(successCount);
         	Serial.print(", Failures: ");
         	Serial.print(failCount);
-        	newline()
-;
+        	newline();
+
 		turnOnRelay_A();
 		turnOnRelay_B();
 
