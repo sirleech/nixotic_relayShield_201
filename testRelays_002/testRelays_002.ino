@@ -3,14 +3,17 @@
 // Description: Turn on and off relay 1 and 2
 // Success Criteria: A switched voltage is detected when relay is on
 // Notes: 	- Log failures to serial port
-//		- Green and red leds
-//		- Green = passing
-//		- Red = failure"
 
 int count = 1;
+int successCount = 0;
+int failCount = 0;
 
-#define relayPinA 2
-#define relayPinB 3
+#define delay_ms 20
+
+#define iterations 50
+
+#define relayPinA 3
+#define relayPinB 2
 #define relayPinA_test 4
 #define relayPinB_test 5 
 
@@ -25,23 +28,33 @@ void setup()
 
 void loop()
 {
-	Serial.print("Test #");
-	Serial.print(count++); newline();
-	turnOnRelay_A();
-	delay(600);
-	turnOnRelay_B();
-	delay(1200);
+	if(count <= iterations)
+	{
+		Serial.print("Iteration #");
+        	Serial.print(count++);
+        	Serial.print(", Successes: ");
+        	Serial.print(successCount);
+        	Serial.print(", Failures: ");
+        	Serial.print(failCount);
+        	newline()
+;
+		turnOnRelay_A();
+		turnOnRelay_B();
 
-	turnOffRelay_A();
-	delay(600);
-	turnOffRelay_B();
-	delay(1200);
+		turnOffRelay_A();
+		turnOffRelay_B();
+		hr();
+	}
+
 }
 
 void turnOnRelay_A() {
 	digitalWrite(relayPinA,HIGH);
+	delay(delay_ms);
 	Serial.print("relay A on, test state=");
-	Serial.print(relay_A_state());
+	int state = relay_A_state();
+	Serial.print(state);
+	assert(state == 1);
 	newline();
 }
 int relay_A_state(){
@@ -49,14 +62,20 @@ int relay_A_state(){
 }
 void turnOffRelay_A() {
         digitalWrite(relayPinA,LOW);
+	delay(delay_ms);
 	Serial.print("relay A off, test state=");
-	Serial.print(relay_A_state());
+	int state = relay_A_state();
+	Serial.print(state);
+	assert(state == 0);
         newline();
 }
 void turnOnRelay_B() {
         digitalWrite(relayPinB,HIGH);
+	delay(delay_ms);
 	Serial.print("relay B on, test state=");
-	Serial.print(relay_B_state());
+	int state = relay_B_state();
+	Serial.print(state);
+	assert(state == 1);
 	newline();
 }
 int relay_B_state(){
@@ -64,10 +83,22 @@ int relay_B_state(){
 }
 void turnOffRelay_B() {
         digitalWrite(relayPinB,LOW);
+	delay(delay_ms);
 	Serial.print("relay B off, test state=");
-	Serial.print(relay_B_state());
+	int state = relay_B_state();
+	Serial.print(state);
+	assert(state == 0);
         newline();
 }
 void newline(){
 	Serial.println("");
+}
+void hr(){
+	Serial.println("============================");
+}
+void assert(boolean condition) {
+	if(condition)
+                successCount ++;
+        else
+                failCount ++;
 }
